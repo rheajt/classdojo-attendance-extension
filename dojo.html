@@ -1,0 +1,25 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html>
+  <head>
+    <title>ClassDojo Extension</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="skeleton.css">
+    <link rel="stylesheet" href="dojo.css">
+    <script src="dojo.js"></script>
+  </head>
+  <body class="container main">
+      <p>
+        This is an extension created by <a href="http://twitter.com/rheajt" target="_blank">@rheajt</a> to make taking attendance on <a href="https://www.classdojo.com">ClassDojo</a> a little easier.
+      </p>
+      <p><i>MAKE SURE YOU HAVE YOUR ATTENDANCE SCREEN OPEN</i></p>
+      <p><b>Attendance taker:</b> <span id="attendance-email"></span></p>
+      <p><b>Your email:</b> <span id="your-email"></span></p>
+      <button id="attendance" class="button-primary">Send Attendance</button>
+      <button id="lates" class="button-primary">Send Lates</button>
+  </body>
+</html>

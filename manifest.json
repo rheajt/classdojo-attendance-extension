@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+
+  "name": "ClassDojo Extension",
+  "description": "Extension to help teachers more effectively use ClassDojo",
+  "version": "1.1",
+
+  "icons": {
+    "48": "Raising-hand-48.png",
+    "128": "Raising-hand-128.png"
+  },
+
+  "browser_action": {
+    "default_icon": "classdojo-icon2.png",
+    "default_popup": "dojo.html",
+    "default_title": "Click here for ClassDojo controls"
+  },
+
+  "options_ui": {
+    "page": "settings.html",
+    "chrome_style": true
+  },
+
+  "permissions": [
+    "tabs",
+    "storage",
+    "activeTab"
+  ]
+}
