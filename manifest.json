@@ -3,15 +3,15 @@
 
   "name": "ClassDojo Extension",
   "description": "Extension to help teachers more effectively use ClassDojo",
-  "version": "1.1",
+  "version": "1.2",
 
   "icons": {
-    "48": "Raising-hand-48.png",
-    "128": "Raising-hand-128.png"
+    "48": "promo/Raising-hand-48.png",
+    "128": "promo/Raising-hand-128.png"
   },
 
   "browser_action": {
-    "default_icon": "classdojo-icon2.png",
+    "default_icon": "assets/classdojo-icon2.png",
     "default_popup": "dojo.html",
     "default_title": "Click here for ClassDojo controls"
   },

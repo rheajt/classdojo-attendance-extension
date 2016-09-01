@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   chrome.tabs.executeScript({
-    file: 'getData.js'
+    file: 'assets/getData.js'
   })
 
   var emails;
@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     attendance_taker: 'to@yourschool.com',
     your_email: 'yourcopy@yourschool.com'
   }, function(items) {
-    attendanceTaker = items.attendance_taker || 'Not set yet.',
-    yourEmail = items.your_email || 'Not set yet.'
+    attendanceTaker = items.attendance_taker || '',
+    yourEmail = items.your_email || ''
 
     document.getElementById('attendance-email').innerHTML = attendanceTaker;
     document.getElementById('your-email').innerHTML = yourEmail;
