@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  var pickerKey = 'AIzaSyBbMegiYI1hYSSf02dls5TzgmHSkflfT6k';
+  //var pickerKey = 'AIzaSyBbMegiYI1hYSSf02dls5TzgmHSkflfT6k';
 
   chrome.storage.sync.get({
     attendance_taker: 'who_gets_the_attendance@your_school.com',
@@ -20,5 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }, function() {
       console.log('settings saved');
     });
+  });
+
+  document.getElementById('select_from_drive').addEventListener('click', function() {
+
+    chrome.identity.getAuthToken(function(token) {
+      alert(token);
+    });
+    
   })
 })
