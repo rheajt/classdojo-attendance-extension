@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
   chrome.tabs.executeScript({
-    file: 'assets/getData.js'
+    file: 'dist/js/getData.js'
   })
 
   var emails;
