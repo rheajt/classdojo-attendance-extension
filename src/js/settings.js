@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-  //var pickerKey = 'AIzaSyBbMegiYI1hYSSf02dls5TzgmHSkflfT6k';
 
+  //load up the saved email settings
   chrome.storage.sync.get({
     attendance_taker: 'who_gets_the_attendance@your_school.com',
     your_email: 'your_email@address.com'
@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('your_email').value = items.your_email
   });
 
+  //handle submit with new settings
   document.getElementById('settings').addEventListener('submit', function(e) {
 
     e.preventDefault();
@@ -22,11 +23,5 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  document.getElementById('select_from_drive').addEventListener('click', function() {
 
-    chrome.identity.getAuthToken(function(token) {
-      alert(token);
-    });
-    
-  })
 })
