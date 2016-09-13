@@ -3,7 +3,7 @@
 
   "name": "ClassDojo Extension",
   "description": "Extension to help teachers more effectively use ClassDojo",
-  "version": "1.4",
+  "version": "1.6",
 
   "icons": {
     "48": "imgs/Raising-hand-48.png",

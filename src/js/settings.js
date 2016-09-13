@@ -19,9 +19,9 @@ function loadApi() {
 
 function getSettings() {
   chrome.storage.sync.get(function(items) {
-    document.getElementById('attendance_taker').value = items.attendance_taker,
-    document.getElementById('your_email').value = items.your_email;
-    document.getElementById('spreadsheet-id').value = items.spreadsheet_data;
+    document.getElementById('attendance_taker').value = items.attendance_taker || '',
+    document.getElementById('your_email').value = items.your_email || '';
+    document.getElementById('spreadsheet-id').value = items.spreadsheet_data || '';
   });
 }
 

@@ -25,7 +25,12 @@ function composeEmail() {
 }
 
 function writeToSheet() {
-  chrome.identity.getAuthToken(function(token) {
+  chrome.identity.getAuthToken({
+    interactive: true,
+    scopes: [
+      'https://www.googleapis.com/auth/spreadsheets'
+    ]
+  }, function(token) {
     gapi.load('client', function() {
 
       gapi.auth.setToken({
@@ -37,7 +42,7 @@ function writeToSheet() {
 
         gapi.client.sheets.spreadsheets.values.get({
           "spreadsheetId": data.spreadsheet_data,
-          "range": "Roster!A2:D1000"
+          "range": "ATTENDANCE!A2:D1000"
         }).then(function(response) {
           roster = response.result.values;
 
@@ -72,10 +77,10 @@ function writeToSheet() {
 
             var updateSheet = gapi.client.sheets.spreadsheets.values.update({
               "spreadsheetId": data.spreadsheet_data,
-              "range": "Roster!A2:D1000",
+              "range": "ATTENDANCE!A2:D1000",
               "valueInputOption": "USER_ENTERED",
               "resource": {
-                "range": "Roster!A2:D1000",
+                "range": "ATTENDANCE!A2:D1000",
                 "majorDimension": "ROWS",
                 "values": roster
               }
