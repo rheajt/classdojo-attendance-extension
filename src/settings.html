@@ -3,19 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <title>ClassDojo Extension Settings</title>
-  <link rel="stylesheet" href="css/dojo.css">
-
   <script src="js/api.js"></script>
   <script src="js/settings.js"></script>
+  <style>
+    body {
+      width: 600px;
+      height: 425px;
+    }
+  </style>
 </head>
 <body class="settings-page">
   <form id="settings">
     <div class="email-settings">
+
       <label for="attendance_taker">Who takes the attendance?</label>
       <input type="email" id="attendance_taker" />
-    </div>
 
-    <div class="email-settings">
       <label for="your_email">What is your email address?</label>
       <input type="email" id="your_email" />
 
@@ -23,14 +26,11 @@
 
 
     <div class="spreadsheet-settings">
-      <p><b>Spreadsheet?</b> <span id="picker-result"></span></p>
-
+      <h1>Spreadsheet Settings</h1>
       <input type="hidden" id="spreadsheet-id" />
 
-      <div id="spreadsheet-controls">
-        <button type="button" id="create-new">Create Spreadsheet</button>
-        <button type="button" id="pick-spreadsheet">Pick Existing</button>
-      </div>
+      <button type="button" id="create-new">Create Spreadsheet</button>
+      <button type="button" id="pick-spreadsheet">Pick Existing</button>
     </div>
 
     <hr />

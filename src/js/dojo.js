@@ -6,9 +6,6 @@ function loadData() {
   chrome.storage.sync.get(function(items) {
     data = items;
 
-    document.getElementById('attendance-email').innerHTML = data.attendance_taker;
-    document.getElementById('your-email').innerHTML = data.your_email;
-
     if(data.attendance_taker) {
       document.getElementById('email-control').style.display = 'block';
       document.getElementById('attendance').addEventListener('click', composeEmail);
