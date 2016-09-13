@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
+    gutil = require('gulp-util'),
     uglify = require('gulp-uglify');
 
 var paths = {
@@ -18,7 +19,7 @@ gulp.task('watch', function() {
 
 gulp.task('js', function() {
   return gulp.src(paths.js)
-    .pipe(uglify())
+    .pipe(uglify().on('error', gutil.log))
     .pipe(gulp.dest('dist/js'));
 });
 

@@ -1,7 +1,45 @@
+body {
+  box-sizing: border-box;
+  font-size: 1.3em; }
+
 .main {
   width: 400px;
-  padding: 10px;
-  box-sizing: border-box; }
+  height: 100%;
+  padding: 10px; }
 
-.settings {
-  width: 800px; }
+button {
+  font-size: 1.2em;
+  background-color: white;
+  border: 1px solid #55c122;
+  border-radius: 3px;
+  transition: all .3s; }
+
+.button-primary {
+  background-color: #55c122;
+  color: white; }
+
+button:hover {
+  background-color: #8ee465; }
+
+#email-control {
+  display: none;
+  column-count: 2; }
+  #email-control button {
+    width: 100%; }
+
+#spreadsheet-control {
+  display: none; }
+  #spreadsheet-control button {
+    width: 100%; }
+
+.settings-page {
+  width: 600px;
+  height: 425px; }
+  .settings-page input[type=email], .settings-page input[type=text] {
+    font-size: 1em;
+    width: 100%; }
+  .settings-page .email-settings {
+    width: 50%;
+    float: left; }
+  .settings-page .spreadsheet-settings #spreadsheet-id {
+    display: none; }

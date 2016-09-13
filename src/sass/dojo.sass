@@ -1,9 +1,56 @@
-$colors: red orange yellow green blue indigo violet
+$button-color: rgb(85, 193, 34)
+
+body
+  box-sizing: border-box
+  font-size: 1.3em
 
 .main
   width: 400px
+  height: 100%
   padding: 10px
-  box-sizing: border-box
 
-.settings
-  width: 800px
+button
+  font-size: 1.2em
+  background-color: white
+  border: 1px solid $button-color
+  border-radius: 3px
+  transition: all .3s
+
+.button-primary
+  background-color: $button-color
+  color: white
+
+button:hover
+  background-color: lighten($button-color, 20%)
+
+#email-control
+  display: none
+  column-count: 2
+
+  button
+    width: 100%
+
+#spreadsheet-control
+  display: none
+
+  button
+    width: 100%
+
+.settings-page
+  width: 600px
+  height: 425px
+
+  input[type=email], input[type=text]
+    font-size: 1em
+    width: 100%
+
+  .email-settings
+    width: 50%
+    float: left
+
+  .spreadsheet-settings
+    #spreadsheet-controls
+      // display: none
+
+    #spreadsheet-id
+      display: none
