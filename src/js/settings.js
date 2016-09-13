@@ -22,7 +22,6 @@ function getSettings() {
     document.getElementById('attendance_taker').value = items.attendance_taker,
     document.getElementById('your_email').value = items.your_email;
     document.getElementById('spreadsheet-id').value = items.spreadsheet_data;
-    document.getElementById('picker-result').innerHTML = '<p>Spreadsheet ID: ' + items.spreadsheet_data + '</p>';
   });
 }
 
@@ -34,12 +33,44 @@ function createAttendanceSheet() {
     });
 
     gapi.client.load('https://sheets.googleapis.com/$discovery/rest?version=v4').then(function(e) {
+      var year = new Date().getFullYear();
+
       gapi.client.sheets.spreadsheets.create({
         "properties": {
-          "title": "My test API spreadsheet"
+          "title": "CLASS ROSTER FOR " + year + " / " + (year + 1)
+        },
+        "sheets": {
+          "properties": {
+            "title": "ATTENDANCE"
+          },
+          "data": [
+            {
+              "startRow": 0,
+              "startColumn": 0,
+              "rowData": {
+                "values": [
+                  {
+                    "userEnteredValue": {
+                      "stringValue": "STUDENT NAME"
+                    }
+                  },
+                  {
+                    "userEnteredValue": {
+                      "stringValue": "ABSENTS"
+                    }
+                  },
+                  {
+                    "userEnteredValue": {
+                      "stringValue": "LATES"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
         }
       }).then(function(response) {
-        document.getElementById('spreadsheet').innerHTML = '<input type="text" id="spreadsheet_data" value="'+response.result.spreadsheetId+'" disabled />';
+        document.getElementById('spreadsheet-id').value = response.result.spreadsheetId;
       });
 
     });
@@ -50,13 +81,15 @@ function createAttendanceSheet() {
 function pickSheet() {
   if(pickerLoaded) {
     chrome.identity.getAuthToken(function(token) {
-
+      var origin = window.location.protocol + '//' + window.location.host;
       var picker = new google.picker.PickerBuilder()
         .addView(google.picker.ViewId.SPREADSHEETS)
         .enableFeature(google.picker.Feature.NAV_HIDDEN)
         .hideTitleBar()
         .setOAuthToken(token)
-        .setDeveloperKey('AIzaSyCZ7K3DuHyH0i8tIPoRa5Zh0hGsIVLMA-0')
+        .setDeveloperKey('AIzaSyCdg9xLMDhxoBEkxDM8vVAbreGgPM_Qo9Y')
+        .setOrigin(origin)
+        .setSize(598, 423)
         .setCallback(pickerCallback)
         .build();
 
@@ -71,11 +104,10 @@ function pickerCallback(data) {
   if (action == google.picker.Action.PICKED) {
     var id = data[google.picker.Response.DOCUMENTS][0][google.picker.Document.ID];
 
-    document.getElementById('picker-result').innerHTML = '<p>Spreadsheet ID: ' + id + '</p>';
     document.getElementById('spreadsheet-id').value = id;
 
   } else if (action == google.picker.Action.CANCEL) {
-    document.getElementById('picker-result').innerHTML = 'Picker canceled.';
+    console.log('picker cancel');
   }
 }
 
@@ -88,7 +120,7 @@ function saveSettings(e) {
     your_email: document.getElementById('your_email').value,
     spreadsheet_data: document.getElementById('spreadsheet-id').value
   }, function() {
-    document.getElementById('settings').style.display = "none";
+    window.close();
   });
 
 }

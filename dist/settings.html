@@ -9,32 +9,58 @@
     body {
       width: 600px;
       height: 425px;
+      font-size: 1.2em;
     }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    label span {
+      float: left;
+      width: 30%;
+      text-align: right;
+      padding-right: 10px;
+      margin-top: 10px;
+    }
+
+    button[type=submit] {
+      width: 100%;
+    }
+
   </style>
 </head>
 <body class="settings-page">
   <form id="settings">
-    <div class="email-settings">
+    <h1>Email Settings</h1>
+    <label>
+      <span>Email:</span>
+      <input type="text" id="attendance_taker" />
+    </label>
+    <label>
+      <span>BCC:</span>
+      <input type="text" id="your_email" />
+    </label>
 
-      <label for="attendance_taker">Who takes the attendance?</label>
-      <input type="email" id="attendance_taker" />
+    <h1>Spreadsheet Settings</h1>
+    <label>
+      <span>Spreadsheet ID:</span>
+      <input type="text" id="spreadsheet-id" />
+    </label>
 
-      <label for="your_email">What is your email address?</label>
-      <input type="email" id="your_email" />
+    <label>
+      <span>
+      </span>
 
-    </div>
+        <button type="button" id="create-new">Create Spreadsheet</button>
+        <button type="button" id="pick-spreadsheet">Pick Existing</button>
 
+    </label>
 
-    <div class="spreadsheet-settings">
-      <h1>Spreadsheet Settings</h1>
-      <input type="hidden" id="spreadsheet-id" />
-
-      <button type="button" id="create-new">Create Spreadsheet</button>
-      <button type="button" id="pick-spreadsheet">Pick Existing</button>
-    </div>
 
     <hr />
-    <button type="submit">Save settings</button>
+    <button type="submit" class="active">Save settings</button>
 
   </form>
 </body>
