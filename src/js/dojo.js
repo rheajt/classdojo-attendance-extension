@@ -19,8 +19,13 @@ function loadData() {
 }
 
 function composeEmail() {
+  data.types = {
+    late: document.getElementById('send-late').checked,
+    absent: document.getElementById('send-absent').checked
+  };
+
   chrome.tabs.executeScript({
-    code: 'composeEmail("' + data.attendance_taker + '","' + data.your_email + '")'
+    code: 'composeEmail("' + data.attendance_taker + '","' + data.your_email + '","' + data.types.late + '","' + data.types.absent + '")'
   });
 }
 

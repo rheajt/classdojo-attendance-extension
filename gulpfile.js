@@ -6,15 +6,17 @@ var gulp = require('gulp'),
 var paths = {
   js: 'src/js/**/*.js',
   sass: 'src/sass/**/*.sass',
-  html: 'src/**/*.html'
+  html: 'src/**/*.html',
+  manifest: 'src/manifest.json'
 };
 
-gulp.task('default', ['js', 'css', 'html', 'watch']);
+gulp.task('default', ['js', 'css', 'html', 'manifest', 'watch']);
 
 gulp.task('watch', function() {
   gulp.watch(paths.js, ['js']);
   gulp.watch(paths.sass, ['css']);
   gulp.watch(paths.html, ['html']);
+  gulp.watch(paths.manifest, ['manifest']);
 });
 
 gulp.task('js', function() {
@@ -32,4 +34,9 @@ gulp.task('css', function() {
 gulp.task('html', function() {
   return gulp.src(paths.html)
     .pipe(gulp.dest('dist'));
+});
+
+gulp.task('manifest', function() {
+  return gulp.src(paths.manifest)
+    .pipe(gulp.dest('dist/'));
 });

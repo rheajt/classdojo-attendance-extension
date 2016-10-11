@@ -30,7 +30,7 @@ function getStudents() {
   return students;
 }
 
-function composeEmail(to, bcc) {
+function composeEmail(to, bcc, sendLate, sendAbsent) {
   if(to) {
     var className = document.querySelector("#reactApplication > div > div > header > div > div:nth-child(2) > div").innerHTML,
         students = getStudents(),
@@ -47,21 +47,25 @@ function composeEmail(to, bcc) {
     }
 
     //subject line
-    mailtoLine.push('subject=' + encodeURIComponent('Absent/Late students from ' + className + ' on ' + new Date().toDateString()));
+    mailtoLine.push('subject=' + encodeURIComponent('Attendance from ' + className + ' on ' + new Date().toDateString()));
 
-    //body line
-    if(students.absent.length) {
-      mailtoLine.push('&body=' + encodeURIComponent('Absent today from ' + className + ':\r\n' + students.absent.join('\r\n')));
-    } else {
-      mailtoLine.push('&body=' + encodeURIComponent('No students were absent today in ' + className + '\r\n\r\n'));
+    if(sendAbsent == 'true') {
+      //body line
+      if(students.absent.length) {
+        mailtoLine.push('&body=' + encodeURIComponent('Absent today from ' + className + ':\r\n' + students.absent.join('\r\n')));
+      } else {
+        mailtoLine.push('&body=' + encodeURIComponent('No students were absent today in ' + className));
+      }
+      mailtoLine.push(encodeURIComponent('\r\n\r\n'));
     }
 
-    if(students.late.length) {
-      mailtoLine.push('&body=' + encodeURIComponent('\r\n\r\nLate today:\r\n' + students.late.join('\r\n')));
-    } else {
-      mailtoLine.push('&body=' + encodeURIComponent('No students were late today'));
+    if(sendLate == 'true') {
+      if(students.late.length) {
+        mailtoLine.push('&body=' + encodeURIComponent('Late today in ' + className + ':\r\n' + students.late.join('\r\n')));
+      } else {
+        mailtoLine.push('&body=' + encodeURIComponent('No students were late today in ' + className));
+      }
     }
-
 
     window.open(mailtoLine.join(''), '_blank');
   }

@@ -23,6 +23,8 @@ button {
 
 #email-control {
   display: none; }
+  #email-control input[type=checkbox] {
+    transform: scale(2); }
 
 #spreadsheet-control {
   display: none; }
