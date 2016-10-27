@@ -1,0 +1,30 @@
+body {
+  box-sizing: border-box;
+  font-size: 1.3em; }
+
+.main {
+  width: 400px;
+  height: 100%;
+  padding: 10px; }
+
+button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2em;
+  background-color: white;
+  border: 1px solid #55c122;
+  border-radius: 3px;
+  transition: all .3s; }
+  button .button-primary {
+    background-color: #55c122;
+    color: white; }
+  button:hover {
+    background-color: #8ee465; }
+
+#email-control {
+  display: none; }
+  #email-control input[type=checkbox] {
+    transform: scale(2); }
+
+#spreadsheet-control {
+  display: none; }

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ClassDojo Extension Settings</title>
+  <link rel="stylesheet" href="css/settings.css">
+</head>
+
+<body class="settings-page">
+  <form id="settings">
+    <h1>Email Settings</h1>
+    <label>
+      <span>Email:</span>
+      <input type="text" id="attendance_taker" />
+    </label>
+    <label>
+      <span>BCC:</span>
+      <input type="text" id="your_email" />
+    </label>
+
+    <h1>Spreadsheet Settings</h1>
+    <label>
+      <span>Spreadsheet ID:</span>
+      <input type="text" id="spreadsheet_name" disabled>
+      <input type="hidden" id="spreadsheet_id">
+      <button type="button" id="pick-spreadsheet">Pick</button>
+    </label>
+    <hr />
+    <button type="submit" class="active">Save settings</button>
+
+  </form>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="js/settingsBundle.js"></script>
+</body>
+
+</html>

@@ -17,9 +17,15 @@
   },
   "homepage": "https://github.com/rheajt/classdojo-attendance-extension#readme",
   "devDependencies": {
+    "browserify": "^13.1.1",
     "gulp": "^3.9.1",
+    "gulp-imagemin": "^3.0.3",
     "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^2.2.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7"
+  },
+  "dependencies": {
+    "jquery": "^3.1.1"
   }
 }
