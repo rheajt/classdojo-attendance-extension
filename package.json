@@ -4,7 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch-js": "watchify js/dojo.js -o js/dojoBundle.js -v"
   },
   "repository": {
     "type": "git",

@@ -1,82 +1,221 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var jQuery = require('jquery');
+var $ = require('jquery');
 
-(function($) {
+(function($, gapi) {
 
-  var token, pickerLoaded = false;
+  var data;
 
   function init() {
-    gapi.load('client');
-    gapi.load('picker', function() {
-      pickerLoaded = true;
-      $('#pick-spreadsheet').click(pickerSpreadsheet);
-    });
+    gapi.load('client', setToken);
 
     chrome.storage.sync.get(function(items) {
-      //set values
-      $('#attendance_taker').val(items.attendance_taker);
-      $('#your_email').val(items.your_email);
-      $('#spreadsheet_name').val(items.spreadsheet_data.name);
-      $('#spreadsheet_id').val(items.spreadsheet_data.id);
+      data = items;
 
-      //click events
-      $('#settings').submit(saveSettings);
-    })
-  }
-
-  function saveSettings(e) {
-    e.preventDefault();
-    chrome.storage.sync.set({
-      attendance_taker: $('#attendance_taker').val(),
-      your_email: $('#your_email').val(),
-      spreadsheet_data: {
-        name: $('#spreadsheet_name').val(),
-        id: $('#spreadsheet_id').val()
+      if(items.attendance_taker) {
+        $('#email-control').show();
+        $('#attendance').click(composeEmail);
       }
-    }, function() {
-      window.close();
+
+      if(items.spreadsheet_data) {
+        $('#spreadsheet-control').show();
+      }
     });
-    return false;
   }
 
-  function pickerSpreadsheet() {
-    if(pickerLoaded) {
-      chrome.identity.getAuthToken({interactive:true}, function(token) {
-        var origin = window.location.protocol + '//' + window.location.host;
-        var picker = new google.picker.PickerBuilder()
-          .addView(google.picker.ViewId.SPREADSHEETS)
-          .enableFeature(google.picker.Feature.NAV_HIDDEN)
-          .hideTitleBar()
-          .setOAuthToken(token)
-          .setDeveloperKey('AIzaSyCdg9xLMDhxoBEkxDM8vVAbreGgPM_Qo9Y')
-          .setOrigin(origin)
-          .setSize(598, 423)
-          .setCallback(pickerCallback)
-          .build();
+  function composeEmail(e) {
+    data.types = {
+      late: $('#send-late').is(':checked'),
+      absent: $('#send-absent').is(':checked')
+    };
 
-        picker.setVisible(true);
-
-      })
-    }
+    chrome.tabs.executeScript({
+      code: 'composeEmail("' + data.attendance_taker + '","' + data.your_email + '","' + data.types.late + '","' + data.types.absent + '")'
+    });
   }
 
-  function pickerCallback(data) {
-    var action = data[google.picker.Response.ACTION];
+  function setToken(token) {
+    chrome.identity.getAuthToken({interactive:true}, function(token) {
+      gapi.auth.setToken({
+        access_token: token
+      });
+      gapi.client.load('https://sheets.googleapis.com/$discovery/rest?version=v4').then(function(e) {
+        $('#spreadsheet').click(writeToSheet);
+      });
+    });
+  }
 
-    if (action == google.picker.Action.PICKED) {
-      var spreadsheet = {
-        id: data[google.picker.Response.DOCUMENTS][0][google.picker.Document.ID],
-        filename: data[google.picker.Response.DOCUMENTS][0][google.picker.Document.NAME]
-      };
+  function writeToSheet(e) {
+    gapi.client.sheets.spreadsheets.values.get({
+      "spreadsheetId": data.spreadsheet_data.id,
+      "range": "CLASSDOJO!A:F"
+    }).then(spreadsheetResponse);
+  }
 
-      $('#spreadsheet_name').val(spreadsheet.filename);
-      $('#spreadsheet_id').val(spreadsheet.id);
+  function spreadsheetResponse(response) {
+    if(response.status === 200 && response.result.values) {
+      console.log(response.result.values);
+      roster = response.result.values;
 
+      chrome.tabs.executeScript({
+        code: 'getStudents("all")'
+      }, function(students) {
+        console.log(students);
+
+        // var updateSheet = gapi.client.sheets.spreadsheets.values.update({
+        //   "spreadsheetId": data.spreadsheet_data,
+        //   "range": "ATTENDANCE!A2:D1000",
+        //   "valueInputOption": "USER_ENTERED",
+        //   "resource": {
+        //     "range": "ATTENDANCE!A2:D1000",
+        //     "majorDimension": "ROWS",
+        //     "values": roster
+        //   }
+        // });
+        //
+        // updateSheet.execute(function(response) {console.log(response);});
+      });
     }
+    /*
+*/
+
   }
 
   init();
-})(jQuery);
+}($, gapi))
+
+/*
+
+//function to tally late students
+var absentStudents = students[0].absent,
+lateStudents = students[0].late;
+
+roster.forEach(function(each) {
+for(var i = 0; i < absentStudents.length; i++) {
+if(absentStudents[i] === each[0]) {
+if(isNaN(each[1])) {
+each[1] = 1;
+} else {
++each[1]++;
+}
+}
+}
+
+for(var j = 0; j < lateStudents.length; j++) {
+if(lateStudents[j] === each[0]) {
+if(isNaN(each[2])) {
+each[2] = 1;
+} else {
++each[2]++;
+}
+}
+}
+
+});
+//saved data
+var data;
+
+function loadData() {
+  //get the saved user information
+  chrome.storage.sync.get(function(items) {
+    data = items;
+
+    if(data.attendance_taker) {
+      document.getElementById('email-control').style.display = 'block';
+      document.getElementById('attendance').addEventListener('click', composeEmail);
+    }
+
+    if(data.spreadsheet_data) {
+      document.getElementById('spreadsheet-control').style.display = 'block';
+      document.getElementById('spreadsheet').addEventListener('click', writeToSheet);
+    }
+  });
+}
+
+function composeEmail() {
+  data.types = {
+    late: document.getElementById('send-late').checked,
+    absent: document.getElementById('send-absent').checked
+  };
+
+  chrome.tabs.executeScript({
+    code: 'composeEmail("' + data.attendance_taker + '","' + data.your_email + '","' + data.types.late + '","' + data.types.absent + '")'
+  });
+}
+
+function writeToSheet() {
+  chrome.identity.getAuthToken({
+    interactive: true,
+    scopes: [
+      'https://www.googleapis.com/auth/spreadsheets'
+    ]
+  }, function(token) {
+    gapi.load('client', function() {
+
+      gapi.auth.setToken({
+        access_token: token
+      });
+
+      gapi.client.load('https://sheets.googleapis.com/$discovery/rest?version=v4').then(function(e) {
+        var absentStudents, allStudents;
+
+        gapi.client.sheets.spreadsheets.values.get({
+          "spreadsheetId": data.spreadsheet_data,
+          "range": "ATTENDANCE!A2:D1000"
+        }).then(function(response) {
+          roster = response.result.values;
+
+          chrome.tabs.executeScript({
+            code: 'getStudents()'
+          }, function(students) {
+            absentStudents = students[0].absent;
+            lateStudents = students[0].late;
+
+            roster.forEach(function(each) {
+              for(var i = 0; i < absentStudents.length; i++) {
+                if(absentStudents[i] === each[0]) {
+                  if(isNaN(each[1])) {
+                    each[1] = 1;
+                  } else {
+                    +each[1]++;
+                  }
+                }
+              }
+
+              for(var j = 0; j < lateStudents.length; j++) {
+                if(lateStudents[j] === each[0]) {
+                  if(isNaN(each[2])) {
+                    each[2] = 1;
+                  } else {
+                    +each[2]++;
+                  }
+                }
+              }
+
+            });
+
+            var updateSheet = gapi.client.sheets.spreadsheets.values.update({
+              "spreadsheetId": data.spreadsheet_data,
+              "range": "ATTENDANCE!A2:D1000",
+              "valueInputOption": "USER_ENTERED",
+              "resource": {
+                "range": "ATTENDANCE!A2:D1000",
+                "majorDimension": "ROWS",
+                "values": roster
+              }
+            });
+
+            updateSheet.execute(function(response) {console.log(response);});
+          });
+        });
+
+      });
+    });
+
+  });
+}
+
+document.addEventListener('DOMContentLoaded', loadData);
+*/
 
 },{"jquery":2}],2:[function(require,module,exports){
 /*!
