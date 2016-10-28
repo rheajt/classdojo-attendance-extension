@@ -48,12 +48,11 @@ var $ = require('jquery');
     gapi.client.sheets.spreadsheets.values.get({
       "spreadsheetId": data.spreadsheet_data.id,
       "range": "CLASSDOJO!A:F"
-    }).then(spreadsheetResponse);
+    }).then(writeToSheetResponse);
   }
 
-  function spreadsheetResponse(response) {
+  function writeToSheetResponse(response) {
     if(response.status === 200 && response.result.values) {
-      console.log(response.result.values);
       roster = response.result.values;
 
       chrome.tabs.executeScript({
@@ -74,9 +73,9 @@ var $ = require('jquery');
         //
         // updateSheet.execute(function(response) {console.log(response);});
       });
+    } else {
+      console.log('problem finding sheet');
     }
-    /*
-*/
 
   }
 

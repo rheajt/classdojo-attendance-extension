@@ -2,17 +2,17 @@ function getStudents(allStudents) {
 
   if(allStudents == 'all') {
     var students = [];
-    var names = document.querySelectorAll("#reactApplication > div > div > div > div:nth-child(2) > div > div:nth-child(3) > div:nth-child(2) > div > div");
+    var names = document.querySelectorAll("#reactApplication > div > div > div > div:nth-child(2) > div > div:nth-child(3) > div:nth-child(2) > div");
 
     for(var i = 1; i < names.length - 1; i++) {
       console.log(names[i]);
-      
-      var studentInfo = {
-        avatar: names[i].getElementsByTagName('div')[0].getElementsByTagName('div')[0].getElementsByTagName('img')[0].src,
-        first: names[i].getElementsByTagName('div')[0].getElementsByTagName('div')[2].getElementsByTagName('div')[0].firstChild.innerHTML,
-        last: names[i].getElementsByTagName('div')[0].getElementsByTagName('div')[2].getElementsByTagName('div')[3].firstChild.innerHTML
-      }
-      students.push(studentInfo);
+      students.push(names[i]);
+      // var studentInfo = {
+      //   avatar: names[i].getElementsByTagName('div')[0].getElementsByTagName('div')[0].getElementsByTagName('img')[0].src,
+      //   first: names[i].getElementsByTagName('div')[0].getElementsByTagName('div')[2].getElementsByTagName('div')[0].firstChild.innerHTML,
+      //   last: names[i].getElementsByTagName('div')[0].getElementsByTagName('div')[2].getElementsByTagName('div')[3].firstChild.innerHTML
+      // }
+      // students.push(studentInfo);
     }
 
     return students;
